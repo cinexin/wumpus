@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  * @author migui
- *
+ * Test for {@link WumpusService}
  */
 public class WumpusServiceTest {
 
@@ -26,7 +26,7 @@ public class WumpusServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		wumpus = new Wumpus();
-		wumpus.setPosition(new Position(2,2));
+		wumpus.setPosition(Position.of(2, 2));
 		wumpusService = new WumpusService(wumpus);
 	}
 

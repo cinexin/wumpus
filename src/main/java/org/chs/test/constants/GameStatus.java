@@ -14,7 +14,7 @@ public enum GameStatus {
 	START (false, false), 
 	IN_PROGRESS(false, false),
 	HUNTER_FELL(true, false),
-	HUNTER_WAS_KILLED(true, false),
+	HUNTER_KILLED(true, false),
 	HUNTER_EXITED_WITHOUT_GOLD(true, false),
 	HUNTER_EXITED_WITH_GOLD(true, true);
 	

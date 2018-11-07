@@ -25,26 +25,37 @@ public class Position {
 	/**
 	 * Constructor with initial coordinates
 	 * 
-	 * @param x coordenate
-	 * @param y coordenate
+	 * @param x coordinate
+	 * @param y coordinate
 	 */
-	public Position(int x, int y) {
+	public Position(final int x, final int y) {
 		X = x;
 		Y = y;
 	}
 	public int getX() {
 		return X;
 	}
-	public void setX(int x) {
+	public void setX(final int x) {
 		X = x;
 	}
 	public int getY() {
 		return Y;
 	}
-	public void setY(int y) {
+	public void setY(final int y) {
 		Y = y;
 	}
 
+	/**
+	 * Static method to get an instance of position with the given coordinates
+	 * 
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 * @return
+	 */
+	public static Position of (final int x, final int y) {
+		return new Position(x,y);
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

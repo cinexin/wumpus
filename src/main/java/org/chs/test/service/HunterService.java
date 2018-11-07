@@ -73,6 +73,7 @@ public class HunterService {
 		return newPosition;
 	}
 	
+	
 	/**
 	 * This method calculates the new position of hunter (+1 coordinate to given direction)
 	 * 

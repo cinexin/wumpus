@@ -4,8 +4,13 @@
 package org.chs.test.service;
 
 import org.chs.test.constants.GameStatus;
+import org.chs.test.constants.HunterActions;
 import org.chs.test.exception.GameOverException;
+import org.chs.test.exception.InvalidHunterActionException;
+import org.chs.test.exception.QuiverEmptyException;
+import org.chs.test.exception.WallReachedException;
 import org.chs.test.model.Game;
+
 
 /**
  * @author migui
@@ -16,13 +21,18 @@ import org.chs.test.model.Game;
 public class GameService {
 
 	private Game game;
+	private HunterService hunterService;
+	private BoardService boardService;
 	
 	/**
 	 * Constructor
-	 * @param game the Game instance to set
+	 * @param game the {@link Game} instance to set
+	 * @param gameService instance of {@link GameService}
 	 */
-	public GameService(Game game) {
+	public GameService(final Game game, final HunterService hunterService, final BoardService boardService) {
 		this.game = game;
+		this.hunterService = hunterService;
+		this.boardService = boardService;
 	}
 
 	/**
@@ -41,6 +51,7 @@ public class GameService {
 
 	/**
 	 * This method is in charge of managing the game progress
+	 * It increases the round number and control if the game ends
 	 * @throws GameOverException if game over is detected
 	 */
 	public void nextRound() throws GameOverException {
@@ -65,7 +76,7 @@ public class GameService {
 		case HUNTER_FELL:
 			System.out.println("Game Over! You fell in a pit");
 			break;
-		case HUNTER_WAS_KILLED:
+		case HUNTER_KILLED:
 			System.out.println("Game Over! You were caught and killed");
 			break;
 		case START:
@@ -83,5 +94,74 @@ public class GameService {
 			}
 			throw new GameOverException("Game Over");
 		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param action the action (see possible actions in enum {@link HunterActions}
+	 * 
+	 * @throws {@link GameOverException} if game ends
+	 * @throws {@link InvalidHunterActionException} 
+	 */
+	public void manageHunterActions(final HunterActions action) 
+			throws GameOverException, InvalidHunterActionException{
+		
+		switch (action) {
+		case EXIT:
+			boardService.checkHunterCanExit();
+			if (boardService.isGoldCaught()) {
+				game.setGameStatus(GameStatus.HUNTER_EXITED_WITH_GOLD);
+			} else {
+				game.setGameStatus(GameStatus.HUNTER_EXITED_WITHOUT_GOLD);				
+			}
+			break;
+		
+		case MOVE_FORWARD:
+			try {
+				hunterService.moveForward(boardService.getBoardBounds());
+			} catch (WallReachedException e) {
+				System.out.println("Hunter can't move forward, there's a wall in its direction!");
+			}
+			/* Instant consequences... */
+			if (boardService.checkGoldFound()) {
+				System.out.println("Congrats!! You've found the Gold! now return to start position ALIVE!!");
+			}
+			if (boardService.checkPitFall()) {
+				game.setGameStatus(GameStatus.HUNTER_FELL);
+				System.out.println("Ohhhh!! You've fallen into an infinite pit! Be careful next time ;-) !!!");
+			}
+			if (boardService.checkWumpusKillsHunter()) {
+				game.setGameStatus(GameStatus.HUNTER_KILLED);
+				System.out.println("Ohhhh!! You've been swallowed by the terrifying humpus! Be careful next time ;-) !!!");
+			}
+			
+			/* Perceptions....*/
+			// boardService.isWumpusNearHunter();
+			// boardService.isThereAPitNearHunter();
+			// boardService.isGoldNearHunter();
+			break;
+		
+		case ROTATE:
+			hunterService.rotate();
+			break;
+			
+		
+		case THROW_ARROW:
+			try {
+				hunterService.extractArrow();
+			} catch(QuiverEmptyException e) {
+				System.out.println("Your quiver is empty");
+				return;
+			}
+			// boardService.checkArrowReachesWumpus();
+			break;
+						
+		
+		default:
+			throw new InvalidHunterActionException("Action not contemplated: " + action.toString());
+		}
+		
+		nextRound();
 	}
 }

@@ -17,12 +17,17 @@ public class Board {
 	private Wumpus wumpus;
 	private Hunter hunter;
 	private List<Pit> pits;
+	private Position startPosition = new Position(0,0);
 	
 	/**
 	 * Constructor
 	 * @param size size of the board (NxN squares in the board)
+	 * @param gold instance of {@link Gold} class model
+	 * @param wumpus instance of {@link Wumpus} class model
+	 * @param hunter instance of {@link Hunter} class model
+	 * @param pits list of {@link Pit} 
 	 */
-	public Board(int size, Gold gold, Wumpus wumpus, Hunter hunter, List<Pit> pits) {
+	public Board(final int size, final Gold gold, final Wumpus wumpus, final Hunter hunter, final List<Pit> pits) {
 		this.size = size;
 		this.gold = gold;
 		this.wumpus = wumpus;
@@ -30,6 +35,20 @@ public class Board {
 		this.pits = pits;
 	}
 
+	/**
+	 * Constructor overload
+	 * Addition param: non-default start position (if you don't want the start position to be (0,0))
+	 * @param size size of the board (NxN squares in the board)
+	 */
+	public Board(final int size, final Gold gold, final Wumpus wumpus, final Hunter hunter, final List<Pit> pits, final Position startPosition) {
+		this.size = size;
+		this.gold = gold;
+		this.wumpus = wumpus;
+		this.hunter = hunter;
+		this.pits = pits;
+		this.startPosition = startPosition;
+	}
+	
 	/**
 	 * @return the size
 	 */
@@ -56,20 +75,6 @@ public class Board {
 	 */
 	public void setGold(Gold gold) {
 		this.gold = gold;
-	}
-
-	/**
-	 * @return the wumpus
-	 */
-	public Wumpus getHumpus() {
-		return wumpus;
-	}
-
-	/**
-	 * @param wumpus the wumpus to set
-	 */
-	public void setHumpus(Wumpus wumpus) {
-		this.wumpus = wumpus;
 	}
 
 	/**
@@ -100,4 +105,33 @@ public class Board {
 		this.pits = pits;
 	}
 
+	/**
+	 * @return the wumpus
+	 */
+	public Wumpus getWumpus() {
+		return wumpus;
+	}
+
+	/**
+	 * @param wumpus the wumpus to set
+	 */
+	public void setWumpus(Wumpus wumpus) {
+		this.wumpus = wumpus;
+	}
+
+	/**
+	 * @return the startPosition
+	 */
+	public Position getStartPosition() {
+		return startPosition;
+	}
+
+	/**
+	 * @param startPosition the startPosition to set
+	 */
+	public void setStartPosition(Position startPosition) {
+		this.startPosition = startPosition;
+	}
+
+	
 }

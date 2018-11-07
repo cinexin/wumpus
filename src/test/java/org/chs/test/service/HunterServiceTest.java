@@ -24,7 +24,7 @@ public class HunterServiceTest {
 	Hunter hunter;
 	HunterService hunterService;
 	// we assume a 8x8 square board
-	final Position[] bounds =  new Position[] {new Position(0,0), new Position(7,7)};
+	final Position[] bounds =  new Position[] {Position.of(0, 0), Position.of(7, 7)};
 	
 	/**
 	 * @throws java.lang.Exception
@@ -101,7 +101,7 @@ public class HunterServiceTest {
 	 */
 	@Test
 	public void testMoveForwardToUpDirection() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,3));
+		when(hunter.getPosition()).thenReturn(Position.of(2, 3));
 		when(hunter.getDirection()).thenReturn(Directions.UP);
 		
 
@@ -115,7 +115,7 @@ public class HunterServiceTest {
 	 */
 	@Test
 	public void testMoveForwardToRightDirection() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,3));
+		when(hunter.getPosition()).thenReturn(Position.of(2, 3));
 		when(hunter.getDirection()).thenReturn(Directions.RIGHT);
 		
 
@@ -129,7 +129,7 @@ public class HunterServiceTest {
 	 */
 	@Test
 	public void testMovedForwardToDownDirection() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,3));
+		when(hunter.getPosition()).thenReturn(Position.of(2, 3));
 		when(hunter.getDirection()).thenReturn(Directions.DOWN);
 		
 		final Position newPosition = hunterService.moveForward(bounds);
@@ -142,7 +142,7 @@ public class HunterServiceTest {
 	 */
 	@Test
 	public void testMoveForwardToLeftDirection() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,3));
+		when(hunter.getPosition()).thenReturn(Position.of(2, 3));
 		when(hunter.getDirection()).thenReturn(Directions.LEFT);
 		
 		final Position newPosition = hunterService.moveForward(bounds);
@@ -156,7 +156,7 @@ public class HunterServiceTest {
 	 */
 	@Test (expected = WallReachedException.class)
 	public void testMoveForwardToUpDirectionLimitReached() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,0));
+		when(hunter.getPosition()).thenReturn(Position.of(2, 0));
 		when(hunter.getDirection()).thenReturn(Directions.UP);	
 		hunterService.moveForward(bounds);
 	}	
@@ -167,7 +167,7 @@ public class HunterServiceTest {
 	 */
 	@Test (expected = WallReachedException.class)
 	public void testMoveForwardToRightDirectionLimitReached() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(7,0));
+		when(hunter.getPosition()).thenReturn(Position.of(7, 0));
 		when(hunter.getDirection()).thenReturn(Directions.RIGHT);
 		hunterService.moveForward(bounds);
 	}
@@ -178,7 +178,7 @@ public class HunterServiceTest {
 	 */
 	@Test (expected = WallReachedException.class)
 	public void testMoveForwardToDownDirectionLimitReached() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(2,7));
+		when(hunter.getPosition()).thenReturn(Position.of(2,7));
 		when(hunter.getDirection()).thenReturn(Directions.DOWN);
 		hunterService.moveForward(bounds);
 	}
@@ -188,7 +188,7 @@ public class HunterServiceTest {
 	 */
 	@Test (expected = WallReachedException.class)
 	public void testMoveForwardToLeftDirectionLimitReached() throws WallReachedException {
-		when(hunter.getPosition()).thenReturn(new Position(0,7));
+		when(hunter.getPosition()).thenReturn(Position.of(0, 7));
 		when(hunter.getDirection()).thenReturn(Directions.LEFT);
 		hunterService.moveForward(bounds);
 	}	

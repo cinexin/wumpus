@@ -12,12 +12,16 @@ import org.mockito.Mockito;
 public class GameServiceTest {
 
 	GameService gameService;
+	HunterService hunterService;
+	BoardService boardService;
 	Game game;
 	
 	@Before
 	public void setUp() {
 		game = Mockito.mock(Game.class);
-		gameService = new GameService(game);
+		hunterService = Mockito.mock(HunterService.class);
+		boardService = Mockito.mock(BoardService.class);
+		gameService = new GameService(game, hunterService, boardService);
 	}
 	
 	@Test
@@ -52,7 +56,7 @@ public class GameServiceTest {
 	
 	@Test(expected = GameOverException.class)
 	public void testNextRoundWhenHunterWasKilled() throws GameOverException {
-		when(game.getGameStatus()).thenReturn(GameStatus.HUNTER_WAS_KILLED);
+		when(game.getGameStatus()).thenReturn(GameStatus.HUNTER_KILLED);
 		gameService.nextRound();
 	}
 }
