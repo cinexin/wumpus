@@ -48,7 +48,6 @@ public class HunterServiceTest {
 		final Arrow arrow = new Arrow();
 		
 		quiver.getArrows().add(arrow);
-		System.out.println("[DEBUG] Quiver num of arrows: " + quiver.getArrows().size());
 		
 		when(hunter.getQuiver()).thenReturn(quiver);
 		when(hunter.getNumOfArrows()).thenReturn(quiver.getArrows().size());

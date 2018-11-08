@@ -24,7 +24,7 @@ public class WumpusService {
 	}
 
 	/**
-	 * This method is called when the wumpus is killed
+	 * This method is called when the {@link Wumpus} is killed
 	 */
 	public void die() {
 		theWumpus.setStatus(LivingActorStatus.DEAD);

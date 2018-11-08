@@ -17,6 +17,7 @@ public class GameServiceTest {
 	GameService gameService;
 	HunterService hunterService;
 	BoardService boardService;
+	WumpusService wumpusService;
 	Game game;
 	
 	@Before
@@ -24,7 +25,8 @@ public class GameServiceTest {
 		game = Mockito.mock(Game.class);
 		hunterService = Mockito.mock(HunterService.class);
 		boardService = Mockito.mock(BoardService.class);
-		gameService = new GameService(game, hunterService, boardService);
+		wumpusService = Mockito.mock(WumpusService.class);
+		gameService = new GameService(game, hunterService, wumpusService, boardService);
 	}
 	
 	@Test

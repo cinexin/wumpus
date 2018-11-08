@@ -23,6 +23,7 @@ public class GameService {
 
 	private Game game;
 	private HunterService hunterService;
+	private WumpusService wumpusService;
 	private BoardService boardService;
 	
 	/**
@@ -30,9 +31,10 @@ public class GameService {
 	 * @param game the {@link Game} instance to set
 	 * @param gameService instance of {@link GameService}
 	 */
-	public GameService(final Game game, final HunterService hunterService, final BoardService boardService) {
+	public GameService(final Game game, final HunterService hunterService, final WumpusService wumpusService, final BoardService boardService) {
 		this.game = game;
 		this.hunterService = hunterService;
+		this.wumpusService = wumpusService;
 		this.boardService = boardService;
 	}
 
@@ -105,7 +107,7 @@ public class GameService {
 	 * @throws {@link GameOverException} if game ends
 	 * @throws {@link InvalidHunterActionException} 
 	 */
-	public void manageHunterActions(final HunterActions action) 
+	public void manageHunterAction(final HunterActions action) 
 			throws GameOverException, InvalidHunterActionException{
 		
 		switch (action) {
@@ -145,14 +147,13 @@ public class GameService {
 				System.out.println("Shhhh...what's that??? mmmm...you feel a light breeze coming from near...Be careful!! A Pit Hole is near!!!!");
 			}
 			if (boardService.isGoldNearHunter()) {
-				System.out.println("Shhhhh...what's that??? What a bright coming from somewhere!! Gold should be near here...");
+				System.out.println("Shhhhh...what's that??? Such a beautiful brightness coming from somewhere!! Gold should be near here...");
 			}
 			break;
 		
 		case ROTATE:
 			hunterService.rotate();
-			break;
-			
+			break;	
 		
 		case THROW_ARROW:
 			Arrow extractedArrow;
@@ -160,11 +161,15 @@ public class GameService {
 				extractedArrow = hunterService.extractArrow();
 			} catch(QuiverEmptyException e) {
 				System.out.println("Your quiver is empty");
-				return;
+				break;
 			}
-			boardService.checkArrowKillsWumpus(extractedArrow);
-			break;
-						
+			if (boardService.checkArrowKillsWumpus(extractedArrow)) {
+				wumpusService.die();
+				System.out.println("Waaaawwwww...You hear a terrible scream from the dungeon darkness...Congratulations!! You've killed the Wumpus!!!");				
+			} else {
+				System.out.println("The arrow disappears in the darkness. Sorry, Wumpus has not been reached by the shot");
+			}
+			break;	
 		
 		default:
 			throw new InvalidHunterActionException("Action not contemplated: " + action.toString());
