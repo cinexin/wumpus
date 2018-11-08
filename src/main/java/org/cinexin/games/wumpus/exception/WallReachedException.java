@@ -14,6 +14,11 @@ public class WallReachedException extends Exception {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 9197677198204378952L;
+
+	/**
+	 * 
+	 */
 	public WallReachedException() {
 		// TODO Auto-generated constructor stub
 	}

@@ -12,6 +12,11 @@ public class QuiverEmptyException extends Exception {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 8690914123651919807L;
+
+	/**
+	 * 
+	 */
 	public QuiverEmptyException() {
 		// TODO Auto-generated constructor stub
 	}

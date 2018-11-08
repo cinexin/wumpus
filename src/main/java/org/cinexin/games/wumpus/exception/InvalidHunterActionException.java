@@ -16,6 +16,11 @@ public class InvalidHunterActionException extends Exception {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 4404587988369094219L;
+
+	/**
+	 * 
+	 */
 	public InvalidHunterActionException() {
 		// TODO Auto-generated constructor stub
 	}
