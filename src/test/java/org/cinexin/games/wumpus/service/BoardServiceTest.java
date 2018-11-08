@@ -85,8 +85,7 @@ public class BoardServiceTest {
 		final Gold gold = new Gold();
 		gold.setPosition(position);
 		gold.setCaught(false);
-		final Hunter hunter = new Hunter();
-		hunter.setPosition(position);
+		final Hunter hunter = new Hunter(position);
 		
 		when(board.getGold()).thenReturn(gold);
 		when(board.getHunter()).thenReturn(hunter);
@@ -95,15 +94,10 @@ public class BoardServiceTest {
 	}
 	
 	@Test
-	public void checkGoldNotFoundNotCaught() {
-		final Position goldPosition = new Position(3,4);
-		final Position hunterPosition = new Position(4,4);
-		
-		final Gold gold = new Gold();
-		gold.setPosition(goldPosition);
+	public void checkGoldNotFoundNotCaught() {		
+		final Gold gold = new Gold(Position.of(3, 4));
 		gold.setCaught(false);
-		final Hunter hunter = new Hunter();
-		hunter.setPosition(hunterPosition);
+		final Hunter hunter = new Hunter(Position.of(4, 4));
 		
 		when(board.getGold()).thenReturn(gold);
 		when(board.getHunter()).thenReturn(hunter);
@@ -117,7 +111,7 @@ public class BoardServiceTest {
 		final Gold gold = new Gold();
 		gold.setPosition(position);
 		gold.setCaught(true);
-		final Hunter hunter = new Hunter();
+		final Hunter hunter = new Hunter(position);
 		hunter.setPosition(position);
 		
 		when(board.getGold()).thenReturn(gold);
@@ -128,14 +122,11 @@ public class BoardServiceTest {
 	
 	@Test
 	public void checkGoldNotFoundAlreadyCaught() {
-		final Position goldPosition = new Position(3,4);
-		final Position hunterPosition = new Position(4,4);
 		
-		final Gold gold = new Gold();
-		gold.setPosition(goldPosition);
+		final Gold gold = new Gold(Position.of(3, 4));
 		gold.setCaught(true);
-		final Hunter hunter = new Hunter();
-		hunter.setPosition(hunterPosition);
+		final Hunter hunter = new Hunter(Position.of(4, 4));
+		
 		
 		when(board.getGold()).thenReturn(gold);
 		when(board.getHunter()).thenReturn(hunter);
@@ -146,7 +137,7 @@ public class BoardServiceTest {
 	@Test
 	public void checkPitFallEmptyPitsList() {
 		final List<Pit> pits = Collections.emptyList();
-		final Hunter hunter = new Hunter();
+		final Hunter hunter = new Hunter(Position.of(0, 0));
 		
 		when(board.getPits()).thenReturn(pits);
 		when(board.getHunter()).thenReturn(hunter);
@@ -216,5 +207,89 @@ public class BoardServiceTest {
 		when(board.getHunter()).thenReturn(hunter);
 		
 		assertTrue(boardService.checkWumpusKillsHunter());
+	}
+	
+	@Test
+	public void isWumpusNearHunter_WumpusNotNearHunter() {
+		final Wumpus wumpus = new Wumpus(Position.of(2, 3));
+		final Hunter hunter = new Hunter(Position.of(0, 0));
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		when(board.getHunter()).thenReturn(hunter);
+		
+		assertFalse(boardService.isWumpusNearHunter());
+	}
+	
+	@Test
+	public void isWumpusNearHunter_WumpusNearHunter() {
+		final Wumpus wumpus = new Wumpus(Position.of(1, 0));
+		final Hunter hunter = new Hunter(Position.of(0, 0));
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		when(board.getHunter()).thenReturn(hunter);
+		
+		assertTrue(boardService.isWumpusNearHunter());		
+	}
+	
+	@Test
+	public void isGoldNearHunter_GoldNotNearHunter() {
+		final Wumpus wumpus = new Wumpus(Position.of(2, 3));
+		final Hunter hunter = new Hunter(Position.of(0, 0));
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		when(board.getHunter()).thenReturn(hunter);
+		
+		assertFalse(boardService.isWumpusNearHunter());
+	}
+	
+	@Test
+	public void isGoldNearHunter_GoldNearHunter() {
+		final Gold gold = new Gold(Position.of(1, 0));
+		final Hunter hunter = new Hunter(Position.of(0, 0));
+		
+		when(board.getGold()).thenReturn(gold);
+		when(board.getHunter()).thenReturn(hunter);
+		
+		assertTrue(boardService.isGoldNearHunter());		
+	}
+	
+	@Test
+	public void isThereAPitNearHunter_NoPitsAtAll() {
+		final List<Pit> pits = Collections.emptyList();
+		final Hunter hunter = new Hunter(Position.of(0,0));
+
+		when(board.getPits()).thenReturn(pits);
+		when(board.getHunter()).thenReturn(hunter);
+
+		assertFalse(boardService.isThereAPitNearHunter());
+	}
+	
+	
+	@Test
+	public void isThereAPitNearHunter_NoPitsNearHunter() {
+		final Pit pit1 = new Pit(Position.of(4, 5));
+		final Pit pit2 = new Pit(Position.of(4, 4));
+		final Pit pit3 = new Pit(Position.of(7, 10));
+		final List<Pit> pits = Arrays.asList(pit1, pit2, pit3);
+		final Hunter hunter = new Hunter(Position.of(1, 2));
+		
+		when(board.getPits()).thenReturn(pits);
+		when(board.getHunter()).thenReturn(hunter);
+
+		assertFalse(boardService.isThereAPitNearHunter());
+	}
+	
+	@Test
+	public void isThereAPitNearHunter_PitsNearHunter() {
+		final Pit pit1 = new Pit(Position.of(4, 5));
+		final Pit pit2 = new Pit(Position.of(4, 4));
+		final Pit pit3 = new Pit(Position.of(7, 10));
+		final List<Pit> pits = Arrays.asList(pit1, pit2, pit3);
+		final Hunter hunter = new Hunter(Position.of(3, 3));
+		
+		when(board.getPits()).thenReturn(pits);
+		when(board.getHunter()).thenReturn(hunter);
+
+		assertTrue(boardService.isThereAPitNearHunter());
 	}
 }

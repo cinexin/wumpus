@@ -87,6 +87,7 @@ public class BoardService {
 		if (gold != null && !gold.isCaught()) {
 			if (PositionHelper.areActorsAtSameSquare(gold, hunter) ) {
 				gold.setCaught(true);
+				hunter.setOwnsTheGold(true);
 				return true;
 			} else {
 				return false;
@@ -143,5 +144,53 @@ public class BoardService {
 	}
 	
 	
+	/**
+	 * Checks if wumpus is near the hunter
+	 * 
+	 * @return true if wumpus and hunter are at adjacent squares
+	 */
+	public boolean isWumpusNearHunter() {
+		final Wumpus wumpus = board.getWumpus();
+		final Hunter hunter = board.getHunter();
+		
+		if (PositionHelper.areActorsNear(wumpus, hunter)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if there's a pit near the hunter
+	 * 
+	 * @return true if there's a pit in the board near the hunter, false otherwise
+	 */
+	public boolean isThereAPitNearHunter() {
+		final List<Pit> pits = board.getPits();
+		final Hunter hunter = board.getHunter();
+		
+		for (Pit pit: pits) {
+			if (PositionHelper.areActorsNear(pit, hunter)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Checks if the gold is near the hunter
+	 * 
+	 * @return true if there's a pit in the board near the hunter, false otherwise
+	 */
+	public boolean isGoldNearHunter() {
+		final Gold gold = board.getGold();
+		final Hunter hunter = board.getHunter();
+		
+		if (PositionHelper.areActorsNear(hunter, gold)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

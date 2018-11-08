@@ -9,6 +9,7 @@ import org.cinexin.games.wumpus.exception.GameOverException;
 import org.cinexin.games.wumpus.exception.InvalidHunterActionException;
 import org.cinexin.games.wumpus.exception.QuiverEmptyException;
 import org.cinexin.games.wumpus.exception.WallReachedException;
+import org.cinexin.games.wumpus.model.Arrow;
 import org.cinexin.games.wumpus.model.Game;
 
 
@@ -137,9 +138,15 @@ public class GameService {
 			}
 			
 			/* Perceptions....*/
-			// boardService.isWumpusNearHunter();
-			// boardService.isThereAPitNearHunter();
-			// boardService.isGoldNearHunter();
+			if (boardService.isWumpusNearHunter()) {
+				System.out.println("Shhhhh...what's that?? puajjj...you feel a disgusting hedor...Be careful! Wumpus is near!!!");
+			}
+			if (boardService.isThereAPitNearHunter()) {
+				System.out.println("Shhhh...what's that??? mmmm...you feel a light breeze coming from near...Be careful!! A Pit Hole is near!!!!");
+			}
+			if (boardService.isGoldNearHunter()) {
+				System.out.println("Shhhhh...what's that??? What a bright coming from somewhere!! Gold should be near here...");
+			}
 			break;
 		
 		case ROTATE:
@@ -148,13 +155,14 @@ public class GameService {
 			
 		
 		case THROW_ARROW:
+			Arrow extractedArrow;
 			try {
-				hunterService.extractArrow();
+				extractedArrow = hunterService.extractArrow();
 			} catch(QuiverEmptyException e) {
 				System.out.println("Your quiver is empty");
 				return;
 			}
-			// boardService.checkArrowReachesWumpus();
+			// boardService.checkArrowReachesWumpus(extractedArrow);
 			break;
 						
 		

@@ -15,16 +15,10 @@ public class Hunter extends Actor {
 	private LivingActorStatus status = LivingActorStatus.ALIVE;
 	// by default at the beginning hunter is heading right direction
 	private Directions direction = Directions.RIGHT;
-	private int numOfArrows;
+	private Quiver quiver;
 	// flag to mark if the hunter already has the "Gold" or not
 	private boolean ownsTheGold = Boolean.FALSE;
 	
-	/**
-	 * default constructor with no-args
-	 */
-	public Hunter() {
-		super();
-	}
 
 	/**
 	 * Constructor with an initial position in the board
@@ -32,6 +26,7 @@ public class Hunter extends Actor {
 	 */
 	public Hunter(Position position) {
 		super(position);
+		quiver = new Quiver(position);
 	}
 
 	/**
@@ -40,7 +35,7 @@ public class Hunter extends Actor {
 	 */
 	public Hunter(Position position, int numOfArrows) {
 		super(position);
-		this.numOfArrows = numOfArrows;
+		quiver = new Quiver(position, numOfArrows);
 	}
 	
 	/**
@@ -75,14 +70,11 @@ public class Hunter extends Actor {
 	 * @return the numOfArrows
 	 */
 	public int getNumOfArrows() {
-		return numOfArrows;
-	}
-
-	/**
-	 * @param numOfArrows the numOfArrows to set
-	 */
-	public void setNumOfArrows(int numOfArrows) {
-		this.numOfArrows = numOfArrows;
+		if (quiver != null) {
+			return quiver.arrows.size();
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -99,4 +91,24 @@ public class Hunter extends Actor {
 		this.ownsTheGold = ownsTheGold;
 	}
 
+	@Override
+	public void setPosition(Position position) {
+		super.setPosition(position);
+		quiver.setPosition(position);
+	}
+
+	/**
+	 * @return the quiver
+	 */
+	public Quiver getQuiver() {
+		return quiver;
+	}
+
+	/**
+	 * @param quiver the quiver to set
+	 */
+	public void setQuiver(Quiver quiver) {
+		this.quiver = quiver;
+	}
+	
 }

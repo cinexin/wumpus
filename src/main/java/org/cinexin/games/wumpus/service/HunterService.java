@@ -6,6 +6,7 @@ package org.cinexin.games.wumpus.service;
 import org.cinexin.games.wumpus.constants.Directions;
 import org.cinexin.games.wumpus.exception.QuiverEmptyException;
 import org.cinexin.games.wumpus.exception.WallReachedException;
+import org.cinexin.games.wumpus.model.Arrow;
 import org.cinexin.games.wumpus.model.Hunter;
 import org.cinexin.games.wumpus.model.Position;
 
@@ -32,16 +33,22 @@ public class HunterService {
 	 * @return new number of arrows left for hunter
 	 * @throws QuiverEmptyException if hunter has no arrows left
 	 */
-	public int extractArrow() throws QuiverEmptyException {
-		final int initialNumberOfArrows = hunter.getNumOfArrows();
+	public Arrow extractArrow() throws QuiverEmptyException {
 		
-		if (initialNumberOfArrows > 0) {
-			hunter.setNumOfArrows(initialNumberOfArrows-1);
+		if (hunter.getQuiver() == null) {
+			throw new QuiverEmptyException("Sorry! Hunter has no quiver...so, no arrows available!!");
+		}
+		final int availableNumOfArrows = hunter.getNumOfArrows();
+		
+		if (availableNumOfArrows > 0) {
+			final Arrow arrowExtracted = hunter.getQuiver().getArrows().remove(0);
+			arrowExtracted.setPosition(hunter.getPosition());
+			arrowExtracted.setDirection(hunter.getDirection());
+			return arrowExtracted;
 		}
 		else {
 			throw new QuiverEmptyException("No arrows left!");
 		}
-		return hunter.getNumOfArrows();
 	}
 	
 	/**
