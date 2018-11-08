@@ -3,6 +3,7 @@
  */
 package org.cinexin.games.wumpus.util;
 
+import org.cinexin.games.wumpus.model.Actor;
 import org.cinexin.games.wumpus.model.Position;
 
 /**
@@ -19,7 +20,7 @@ public class PositionHelper {
 	 * @param pointB
 	 * @return true if they're adjacent, false if not
 	 */
-	public static boolean areAdjacent(final Position pointA, final Position pointB) {
+	public static boolean arePositionsAdjacent(final Position pointA, final Position pointB) {
 		
 		if (pointA.getX() == pointB.getX() - 1 && 
 				pointA.getY() == pointB.getY() - 1 ) {
@@ -69,4 +70,19 @@ public class PositionHelper {
 		return false;
 	}
 
+	public static boolean areActorsNear(Actor actorA, Actor actorB) {
+		if (arePositionsAdjacent(actorA.getPosition(), actorB.getPosition())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public static boolean areActorsAtSameSquare(Actor actorA, Actor actorB) {
+		if (actorA.getPosition().equals(actorB.getPosition())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

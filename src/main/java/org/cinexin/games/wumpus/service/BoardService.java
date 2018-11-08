@@ -13,6 +13,7 @@ import org.cinexin.games.wumpus.model.Hunter;
 import org.cinexin.games.wumpus.model.Pit;
 import org.cinexin.games.wumpus.model.Position;
 import org.cinexin.games.wumpus.model.Wumpus;
+import org.cinexin.games.wumpus.util.PositionHelper;
 
 /**
  * @author migui
@@ -48,7 +49,7 @@ public class BoardService {
 	/**
 	 * Returns true if hunter got the gold, false if not
 	 */
-	public boolean isGoldCaught() {
+	public boolean isGoldAlreadyCaught() {
 		final Gold gold = board.getGold();
 		if (gold != null) {
 			return gold.isCaught();
@@ -84,7 +85,7 @@ public class BoardService {
 		
 
 		if (gold != null && !gold.isCaught()) {
-			if (hunter.getPosition().equals(gold.getPosition()) ) {
+			if (PositionHelper.areActorsAtSameSquare(gold, hunter) ) {
 				gold.setCaught(true);
 				return true;
 			} else {
@@ -107,7 +108,7 @@ public class BoardService {
 		if (pits != null) {
 			for (Pit pit:pits) {
 				if (pit != null) {
-					if (pit.getPosition().equals(hunter.getPosition())) {
+					if (PositionHelper.areActorsAtSameSquare(pit, hunter)) {
 						return true;
 					}
 				}
@@ -129,7 +130,7 @@ public class BoardService {
 		final Hunter hunter = board.getHunter();
 		final Wumpus wumpus = board.getWumpus();
 		
-		if (hunter.getPosition().equals(wumpus.getPosition())) {
+		if (PositionHelper.areActorsAtSameSquare(hunter, wumpus)) {
 			if (wumpus.getStatus().equals(LivingActorStatus.ALIVE)) {
 				hunter.setStatus(LivingActorStatus.DEAD);
 				return true;
@@ -140,4 +141,7 @@ public class BoardService {
 			return false;
 		}
 	}
+	
+	
+
 }

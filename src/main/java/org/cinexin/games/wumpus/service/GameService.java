@@ -110,7 +110,7 @@ public class GameService {
 		switch (action) {
 		case EXIT:
 			boardService.checkHunterCanExit();
-			if (boardService.isGoldCaught()) {
+			if (boardService.isGoldAlreadyCaught()) {
 				game.setGameStatus(GameStatus.HUNTER_EXITED_WITH_GOLD);
 			} else {
 				game.setGameStatus(GameStatus.HUNTER_EXITED_WITHOUT_GOLD);				

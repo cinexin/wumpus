@@ -52,7 +52,7 @@ public class BoardServiceTest {
 		final Gold gold = new Gold();
 		gold.setCaught(true);
 		when(board.getGold()).thenReturn(gold);
-		assertTrue("AssertionError", boardService.isGoldCaught());
+		assertTrue("AssertionError", boardService.isGoldAlreadyCaught());
 	}
 
 	@Test
@@ -60,7 +60,7 @@ public class BoardServiceTest {
 		final Gold gold = new Gold();
 		gold.setCaught(false);
 		when(board.getGold()).thenReturn(gold);
-		assertFalse("AssertionError", boardService.isGoldCaught());
+		assertFalse("AssertionError", boardService.isGoldAlreadyCaught());
 	}
 	
 	@Test
