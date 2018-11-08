@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.cinexin.games.wumpus.constants.Directions;
 import org.cinexin.games.wumpus.constants.LivingActorStatus;
+import org.cinexin.games.wumpus.model.Arrow;
 import org.cinexin.games.wumpus.model.Board;
 import org.cinexin.games.wumpus.model.Gold;
 import org.cinexin.games.wumpus.model.Hunter;
@@ -291,5 +293,72 @@ public class BoardServiceTest {
 		when(board.getHunter()).thenReturn(hunter);
 
 		assertTrue(boardService.isThereAPitNearHunter());
+	}
+	
+	
+	@Test
+	public void checkArrowReachesWumpus_WumpusNotInArrowWay() {
+		final Arrow arrow = new Arrow(Position.of(0, 0));
+		arrow.setDirection(Directions.RIGHT);
+		final Wumpus wumpus = new Wumpus(Position.of(3, 2));
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		when(board.getStartPosition()).thenReturn(Position.of(0, 0));
+		when(board.getSize()).thenReturn(7);
+		assertFalse(boardService.checkArrowKillsWumpus(arrow));
+	}
+	
+	@Test
+	public void checkArrowReachesWumpus_WumpusInArrowWay_butAlreadyKilled() {
+		final Arrow arrow = new Arrow(Position.of(1, 1));
+		arrow.setDirection(Directions.RIGHT);
+		final Wumpus wumpus = new Wumpus(Position.of(7, 1));
+		wumpus.setStatus(LivingActorStatus.DEAD);
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		when(board.getStartPosition()).thenReturn(Position.of(0, 0));
+		when(board.getSize()).thenReturn(7);
+		assertFalse(boardService.checkArrowKillsWumpus(arrow));
+	}
+	
+	@Test
+	public void checkArrowReachesWumpus_WumpusInArrowWay_wumpusAlive() {
+		
+		when(board.getStartPosition()).thenReturn(Position.of(0, 0));
+		when(board.getSize()).thenReturn(7);
+		
+		// Direction: RIGHT
+		final Arrow arrow = new Arrow(Position.of(1, 1));
+		arrow.setDirection(Directions.RIGHT);
+		final Wumpus wumpus = new Wumpus(Position.of(7, 1));
+
+		
+		when(board.getWumpus()).thenReturn(wumpus);
+		assertTrue(boardService.checkArrowKillsWumpus(arrow));
+		
+		// Direction: DOWN
+		arrow.setDirection(Directions.DOWN);
+		arrow.setPosition(Position.of(1, 1));
+		wumpus.setPosition(Position.of(1, 6));
+		wumpus.setStatus(LivingActorStatus.ALIVE);
+		when(board.getWumpus()).thenReturn(wumpus);
+
+		assertTrue(boardService.checkArrowKillsWumpus(arrow));
+		
+		// Direction: LEFT
+		arrow.setDirection(Directions.LEFT);
+		arrow.setPosition(Position.of(1, 1));
+		wumpus.setPosition(Position.of(0, 1));
+		wumpus.setStatus(LivingActorStatus.ALIVE);
+		when(board.getWumpus()).thenReturn(wumpus);
+		assertTrue(boardService.checkArrowKillsWumpus(arrow));
+		
+		// Direction: UP
+		arrow.setDirection(Directions.UP);
+		arrow.setPosition(Position.of(1, 1));
+		wumpus.setPosition(Position.of(1, 0));
+		wumpus.setStatus(LivingActorStatus.ALIVE);
+		when(board.getWumpus()).thenReturn(wumpus);
+		assertTrue(boardService.checkArrowKillsWumpus(arrow));
 	}
 }

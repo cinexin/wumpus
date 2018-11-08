@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cinexin.games.wumpus.constants.LivingActorStatus;
 import org.cinexin.games.wumpus.exception.InvalidHunterActionException;
+import org.cinexin.games.wumpus.model.Arrow;
 import org.cinexin.games.wumpus.model.Board;
 import org.cinexin.games.wumpus.model.Gold;
 import org.cinexin.games.wumpus.model.Hunter;
@@ -193,4 +194,107 @@ public class BoardService {
 		}
 	}
 
+	/**
+	 * Checks if given arrow reaches (and kills) the {@link Wumpus}
+	 * @param arrow instance of thrown {@link Arrow}
+	 * 
+	 * @return true if {@link Wumpus} gets killed, false otherwise
+	 */
+	public boolean checkArrowKillsWumpus(final Arrow arrow) {
+		
+		final Position[] boardBounds = getBoardBounds();
+		Position arrowPosition = arrow.getPosition();
+		
+		if (arrowReachesAndKillsWumpus(arrow)) {
+			return true;
+		}
+		
+		while (!arrowReachesWall(arrowPosition, boardBounds)) {
+			arrowPosition = calculateNextArrowPosition(arrow);
+			arrow.setPosition(arrowPosition);
+			
+			if (arrowReachesAndKillsWumpus(arrow)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Auxiliary method to check the next position of an {@link Arrow}
+	 * taking into account its direction
+	 * 
+	 * @param arrow instance of thrown {@link Arrow}
+	 * 
+	 * @return new {@link Position} of the arrow
+	 */
+	private Position calculateNextArrowPosition(final Arrow arrow) {
+		final Position newPosition = arrow.getPosition();
+		
+		switch (arrow.getDirection()) {
+		case DOWN:
+			newPosition.setY(arrow.getPosition().getY() + 1);
+			break;			
+		case LEFT:
+			newPosition.setX(arrow.getPosition().getX() - 1);
+			break;
+		case UP:
+			newPosition.setY(arrow.getPosition().getY() - 1);
+			break;			
+		case RIGHT:
+			newPosition.setX(arrow.getPosition().getX() + 1);
+			break;
+			
+		default:
+			break;
+		}
+		
+		return newPosition;
+	}
+	
+	/**
+	 * Auxiliary method to check if arrow in given {@link Position} 
+	 * has reached a bound in the board (a Wall)
+	 * 
+	 * @param arrowPosition {@link Position} of the arrow
+	 * @param boardBounds array containing {@link Board} bounds (ie: (1,1) to (8,8)
+	 * 
+	 * @return true if arrow has reached a bound, false otherwise
+	 */
+	private boolean arrowReachesWall(final Position arrowPosition, final Position[] boardBounds) {
+		
+		final Position upperBound = boardBounds[0];
+		final Position lowerBound = boardBounds[1];
+		
+		if (arrowPosition.getX() <= upperBound.getX() ||
+				arrowPosition.getY() <= upperBound.getY()) {
+			return true;
+		}
+		
+		if (arrowPosition.getX() >= lowerBound.getX() ||
+				arrowPosition.getY() >= lowerBound.getY()) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Return true if {@link Arrow} gets in the same square as {@link Wumpus}
+	 * and it's still ALIVE
+	 * 
+	 * @param arrow instance of thrown {@link Arrow}
+	 * 
+	 * @return true if wumpus gets killed, false otherwise
+	 */
+	private boolean arrowReachesAndKillsWumpus(final Arrow arrow) {
+		final Wumpus wumpus = board.getWumpus();
+		
+		if (PositionHelper.areActorsAtSameSquare(wumpus, arrow)
+				&& wumpus.getStatus().equals(LivingActorStatus.ALIVE)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

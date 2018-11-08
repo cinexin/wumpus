@@ -162,7 +162,7 @@ public class GameService {
 				System.out.println("Your quiver is empty");
 				return;
 			}
-			// boardService.checkArrowReachesWumpus(extractedArrow);
+			boardService.checkArrowKillsWumpus(extractedArrow);
 			break;
 						
 		

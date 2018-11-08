@@ -70,8 +70,8 @@ public class Hunter extends Actor {
 	 * @return the numOfArrows
 	 */
 	public int getNumOfArrows() {
-		if (quiver != null) {
-			return quiver.arrows.size();
+		if (getQuiver() != null) {
+			return getQuiver().getArrows().size();
 		} else {
 			return 0;
 		}

@@ -6,9 +6,6 @@ package org.cinexin.games.wumpus.service;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.cinexin.games.wumpus.constants.Directions;
 import org.cinexin.games.wumpus.exception.QuiverEmptyException;
 import org.cinexin.games.wumpus.exception.WallReachedException;
@@ -51,10 +48,17 @@ public class HunterServiceTest {
 		final Arrow arrow = new Arrow();
 		
 		quiver.getArrows().add(arrow);
+		System.out.println("[DEBUG] Quiver num of arrows: " + quiver.getArrows().size());
 		
 		when(hunter.getQuiver()).thenReturn(quiver);
-		when(hunter.getNumOfArrows()).thenReturn(1);
-		hunterService.extractArrow();
+		when(hunter.getNumOfArrows()).thenReturn(quiver.getArrows().size());
+		when(hunter.getPosition()).thenReturn(Position.of(2, 4));
+		when(hunter.getDirection()).thenReturn(Directions.LEFT);
+		
+		final Arrow extractedArrow = hunterService.extractArrow();
+		
+		assertEquals(extractedArrow.getPosition(), Position.of(2, 4));
+		assertEquals(extractedArrow.getDirection(), Directions.LEFT);
 	}
 
 	/**
@@ -93,6 +97,7 @@ public class HunterServiceTest {
 		when(hunter.getPosition()).thenReturn(hunterPosiiton);
 		
 		do {
+			when(hunter.getNumOfArrows()).thenReturn(quiver.getArrows().size());
 			Arrow extractedArrow = hunterService.extractArrow();
 			assertEquals(extractedArrow.getPosition(), hunter.getPosition());
 			assertEquals(extractedArrow.getDirection(), hunter.getDirection());
