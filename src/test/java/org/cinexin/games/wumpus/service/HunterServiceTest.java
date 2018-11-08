@@ -85,10 +85,17 @@ public class HunterServiceTest {
 		quiver.getArrows().add(arrow4);
 	
 		
+		final Directions hunterDirection = Directions.DOWN;
+		final Position hunterPosiiton = Position.of(3, 4);
+		
 		when(hunter.getQuiver()).thenReturn(quiver);
+		when(hunter.getDirection()).thenReturn(hunterDirection);
+		when(hunter.getPosition()).thenReturn(hunterPosiiton);
 		
 		do {
-			hunterService.extractArrow();	
+			Arrow extractedArrow = hunterService.extractArrow();
+			assertEquals(extractedArrow.getPosition(), hunter.getPosition());
+			assertEquals(extractedArrow.getDirection(), hunter.getDirection());
 		} while(true);
 	}
 	
