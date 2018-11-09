@@ -14,6 +14,7 @@ import org.cinexin.games.wumpus.model.Board;
 import org.cinexin.games.wumpus.model.Game;
 import org.cinexin.games.wumpus.model.GameParams;
 import org.cinexin.games.wumpus.service.GameService;
+import org.cinexin.games.wumpus.ui.CommandLineUI;
 import org.cinexin.games.wumpus.util.GameInitializationUtils;
 
 /**
@@ -98,8 +99,9 @@ public class WumpusGameMain {
 		if (board != null) {
 			/* Instantiate a new game */
 			final Game game = new Game(board);
-			
-			// final GameService gameService = new GameService(game, hunterService, wumpusService, boardService);
+			final GameService gameService = new GameService(game);
+			CommandLineUI cmdUi = new CommandLineUI(gameService);
+			cmdUi.welcome();
 			
 		}
 	}
