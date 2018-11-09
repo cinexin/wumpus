@@ -110,5 +110,15 @@ public class Hunter extends Actor {
 	public void setQuiver(Quiver quiver) {
 		this.quiver = quiver;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Hunter [status=" + status + ", direction=" + direction + ", ownsTheGold=" + ownsTheGold
+				+ ", getPosition()=" + getPosition() + "]";
+	}
+
 	
 }

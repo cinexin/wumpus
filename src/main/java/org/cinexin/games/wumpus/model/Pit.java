@@ -25,4 +25,13 @@ public class Pit extends Actor {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Pit [getPosition()=" + getPosition() + "]";
+	}
+
+	
 }

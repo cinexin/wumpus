@@ -133,5 +133,22 @@ public class Board {
 		this.startPosition = startPosition;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		
+	    StringBuilder sb = new StringBuilder();
+	    sb.append(hunter).append(System.getProperty("line.separator")); 
+	    sb.append(gold).append(System.getProperty("line.separator")); 
+	    sb.append(wumpus).append(System.getProperty("line.separator")); 
+	    
+	    for (Pit pit:pits) {
+	    	sb.append(pit).append(System.getProperty("line.separator"));
+	    }
+	    return sb.toString();
+	}
+
 	
 }

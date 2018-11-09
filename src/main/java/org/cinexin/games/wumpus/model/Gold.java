@@ -40,6 +40,14 @@ public class Gold extends Actor {
 		this.caught = caught;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Gold [caught=" + caught + ", getPosition()=" + getPosition() + "]";
+	}
+
 	
 	
 }

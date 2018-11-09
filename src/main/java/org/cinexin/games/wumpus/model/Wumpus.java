@@ -43,6 +43,14 @@ public class Wumpus extends Actor {
 	public void setStatus(LivingActorStatus status) {
 		this.status = status;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Wumpus [status=" + status + ", getPosition()=" + getPosition() + "]";
+	}
 	
 	
 }
