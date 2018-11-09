@@ -53,6 +53,11 @@ public class GameInitializationUtils {
 			throw new InvalidGameParamsException("Too many pits (" + gameParams.getNumOfPits() + ") for board size: " + gameParams.getBoardSize());
 		}
 		
+		if (gameParams.getNumOfPits() < 0) {
+			System.err.println("Sorry, you're trying to put a negative amount of pits in the board...");
+			throw new InvalidGameParamsException("Pits number: (" + gameParams.getNumOfPits() + ") should be a positive amount.");
+		}
+
 		// set the default number of arrows to zero if user has wrongly entered a negative amount
 		if (gameParams.getNumOfArrows() < 0) {
 			gameParams.setNumOfArrows(0);
@@ -75,10 +80,6 @@ public class GameInitializationUtils {
 		final Position startPosition = Position.of(0, 0);
 		
 		fillAvailableSpacesArray(startPosition, boardSize);
-		for (Position position: availableSpaces) {
-			System.out.println("[DEBUG] POSITION: " + position);
-		}
-		
 		
 		// hunter starts at initialPosition typically: (0,0)
 		final Hunter hunter = new Hunter(startPosition, gameParams.getNumOfArrows());
