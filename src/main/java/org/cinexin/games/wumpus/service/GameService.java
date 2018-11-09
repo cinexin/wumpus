@@ -31,12 +31,69 @@ public class GameService {
 	 * @param game the {@link Game} instance to set
 	 * @param gameService instance of {@link GameService}
 	 */
-	public GameService(final Game game, final HunterService hunterService, final WumpusService wumpusService, final BoardService boardService) {
+	public GameService(final Game game) {
 		this.game = game;
+		this.hunterService = new HunterService(game.getBoard().getHunter());
+		this.wumpusService = new WumpusService(game.getBoard().getWumpus());
+		this.boardService = new BoardService(game.getBoard());
+	}
+
+	
+	/**
+	 * @return the hunterService
+	 */
+	public HunterService getHunterService() {
+		return hunterService;
+	}
+
+
+	/**
+	 * @param hunterService the hunterService to set
+	 */
+	public void setHunterService(HunterService hunterService) {
 		this.hunterService = hunterService;
+	}
+
+
+	/**
+	 * @return the wumpusService
+	 */
+	public WumpusService getWumpusService() {
+		return wumpusService;
+	}
+
+
+	/**
+	 * @param wumpusService the wumpusService to set
+	 */
+	public void setWumpusService(WumpusService wumpusService) {
 		this.wumpusService = wumpusService;
+	}
+
+
+	/**
+	 * @return the boardService
+	 */
+	public BoardService getBoardService() {
+		return boardService;
+	}
+
+
+	/**
+	 * @param boardService the boardService to set
+	 */
+	public void setBoardService(BoardService boardService) {
 		this.boardService = boardService;
 	}
+
+
+	/**
+	 * @param game the game to set
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 
 	/**
 	 * @return the round
